@@ -12,7 +12,7 @@ The source of [ravynarchlab-source.github.io](https://ravynarchlab-source.github
 - `index.html` holds everything: markup, inline CSS, and a few lines of script that play the reel only while it is on screen.
 - First load is about 150 KB. The hero image is 49 KB, each font file 8 KB.
 - Chakra Petch is subset to Latin and served from `assets/fonts` (SIL Open Font License, text included).
-- The reel is a 590 KB MP4 that loads on demand. With reduced motion it stays a still with controls.
+- The reel is a 530 KB MP4 that loads on demand. With reduced motion it stays a still with controls.
 - Colours, type and spacing come from the RAVYN identity tokens.
 
 ## Run it
