@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAVYN — co-op horror games in Unity</title>
+<meta name="description" content="RAVYN makes co-op horror games in Unity. Now building Dusk Crew: build light by day, rescue people in the dark by night. Free demo on itch.io, 21 December 2026.">
+<meta name="theme-color" content="#0A0A12">
+<link rel="canonical" href="https://ravynarchlab-source.github.io/">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="RAVYN — co-op horror games in Unity">
+<meta property="og:description" content="Now building Dusk Crew. Free demo on itch.io, 21 December 2026.">
+<meta property="og:url" content="https://ravynarchlab-source.github.io/">
+<meta property="og:image" content="https://ravynarchlab-source.github.io/assets/img/og.jpg">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="assets/fonts/chakra-petch-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/chakra-petch-600.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Chakra Petch";src:url(assets/fonts/chakra-petch-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Chakra Petch";src:url(assets/fonts/chakra-petch-600.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Chakra Petch";src:url(assets/fonts/chakra-petch-700.woff2) format("woff2");font-weight:700;font-display:swap}
+:root{
+  --ink:#0A0A12;--ink-2:#11111D;--line:#232740;--text:#E6F1FF;--text-2:#A9B6CC;
+  --cyan:#00F0FF;--yellow:#FCEE0A;--yellow-2:#FFF566;
+  --font:"Chakra Petch","Segoe UI",system-ui,sans-serif;
+  --mono:"Cascadia Mono","Cascadia Code",ui-monospace,Consolas,monospace;
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:64px;--s9:96px;
+  --cut:14px;--cut-lg:28px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--text);font:400 1.125rem/1.6 var(--font);
+  background-image:linear-gradient(rgba(230,241,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(230,241,255,.04) 1px,transparent 1px);background-size:40px 40px}
+img,video,svg{display:block;max-width:100%}
+img,video{height:auto}
+h1,h2,h3,p,ul,figure{margin:0}
+ul{padding:0;list-style:none}
+a{color:var(--cyan);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.wrap{width:100%;max-width:1120px;margin-inline:auto;padding-inline:clamp(20px,5vw,48px)}
+.skip{position:absolute;left:var(--s4);top:-80px;z-index:9;background:var(--yellow);color:var(--ink);padding:var(--s3) var(--s4);font-weight:600}
+.skip:focus{top:var(--s4)}
+.label{font-size:.8125rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+h2{font-size:clamp(2.25rem,7vw,3.5rem);font-weight:700;line-height:1.05;letter-spacing:.01em;text-transform:uppercase;text-wrap:balance;margin-top:var(--s2)}
+h3{font-size:1.25rem;font-weight:600;line-height:1.25;text-wrap:balance}
+p{text-wrap:pretty}
+section{padding-block:var(--s9) 0}
+
+/* hero */
+.hero{position:relative;isolation:isolate;overflow:hidden;min-height:min(100svh,780px);display:flex;flex-direction:column}
+.hero-bg{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:76% 28%}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(0deg,var(--ink),rgba(10,10,18,0) 34%),
+  linear-gradient(90deg,rgba(10,10,18,.94),rgba(10,10,18,.72) 42%,rgba(10,10,18,.06) 78%),
+  repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 4px)}
+.nav{display:flex;justify-content:flex-end;gap:var(--s2);padding-block:var(--s4)}
+.nav a{display:inline-flex;align-items:center;min-height:48px;padding-inline:var(--s3);color:var(--text);font-size:.9375rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+.nav a:hover{color:var(--cyan)}
+.hero-body{margin-block:auto;padding-block:var(--s7) var(--s9)}
+.hero h1{width:min(640px,78vw)}
+.hero h1 svg{width:100%;height:auto}
+.lede{margin-top:var(--s6);font-size:clamp(1.5rem,4.6vw,2.25rem);font-weight:600;line-height:1.2;text-wrap:balance}
+.sub{margin-top:var(--s3);color:var(--text-2);max-width:38ch;text-wrap:balance}
+.actions{display:flex;flex-wrap:wrap;gap:var(--s4);margin-top:var(--s6)}
+.btn,.ghost{display:inline-flex;align-items:center;min-height:48px;padding:0 var(--s5);font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:background-color .15s,border-color .15s,color .15s}
+.btn{background:var(--yellow);color:var(--ink);clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,var(--cut) 100%,0 calc(100% - var(--cut)))}
+.btn:hover{background:var(--yellow-2)}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:-6px}
+.ghost{color:var(--text);border:2px solid var(--text-2)}
+.ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+.credit{position:absolute;right:clamp(20px,5vw,48px);bottom:var(--s5);font-size:.8125rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2)}
+
+/* dusk crew */
+.pitch{margin-top:var(--s5);max-width:60ch;font-size:1.25rem}
+.media{margin-top:var(--s7);background:var(--ink-2);aspect-ratio:16/9;
+  clip-path:polygon(0 0,calc(100% - var(--cut-lg)) 0,100% var(--cut-lg),100% 100%,var(--cut-lg) 100%,0 calc(100% - var(--cut-lg)))}
+.media video{width:100%;height:100%;object-fit:cover}
+.demo{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3) var(--s5);margin-top:var(--s5)}
+.date{display:inline-flex;align-items:center;gap:var(--s3);color:var(--yellow);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-variant-numeric:tabular-nums}
+.date::before{content:"";width:12px;height:12px;background:var(--yellow)}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:var(--s7) var(--s6);margin-top:var(--s8)}
+.features li{border-top:2px solid var(--line);padding-top:var(--s4);position:relative}
+.features li::before{content:"";position:absolute;top:-2px;left:0;width:32px;height:2px;background:var(--cyan)}
+.features p,.work p{margin-top:var(--s2);color:var(--text-2);font-size:1rem}
+.note{color:var(--text);font-weight:600}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:var(--s6) var(--s5);margin-top:var(--s8)}
+.shots img{width:100%;background:var(--ink-2)}
+figcaption{margin-top:var(--s2);color:var(--text-2);font-size:1rem}
+
+/* other work, contact */
+.work{margin-top:var(--s7)}
+.work li{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s1) var(--s6);padding-block:var(--s5);border-top:2px solid var(--line)}
+.work .label{color:var(--text-2);margin-top:0}
+.work li:last-child{border-bottom:2px solid var(--line)}
+.work h3 a{color:var(--text)}
+.work h3 a:hover{color:var(--cyan)}
+.work p{max-width:62ch}
+code{font:400 .9375em var(--mono);color:var(--text)}
+@media (min-width:760px){.work li{grid-template-columns:300px minmax(0,1fr)}.work .desc{grid-column:2;grid-row:1/span 2;margin-top:0}}
+.contact p{margin-top:var(--s5);max-width:52ch}
+.foot{margin-top:var(--s9);padding-block:var(--s6);border-top:2px solid var(--line);color:var(--text-2);font-size:1rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.ghost{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#dusk-crew">Skip to content</a>
+
+<header class="hero">
+  <picture>
+    <source media="(max-width:700px)" srcset="assets/img/hero-portrait.webp" width="800" height="960">
+    <img class="hero-bg" src="assets/img/hero-1600.webp" width="1600" height="900" alt="" fetchpriority="high">
+  </picture>
+  <nav class="nav wrap" aria-label="Sections">
+    <a href="#dusk-crew">Dusk Crew</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="hero-body wrap">
+    <h1><svg viewBox="0 0 553 120" role="img" aria-label="RAVYN" fill-rule="evenodd"><path fill="#E6F1FF" d="M63.46 85L59.52 74L28 74L28 85L0 85L0 0L82 0L104 22L104 52L87.54 68.46L93.46 85ZM28 24L69.2 24L76 30.8L76 43.2L69.2 50L28 50ZM128.54 85L159 0L189 0L219.46 85L189.46 85L174 41.85L158.54 85ZM235.46 85L205 0L235 0L263 78.15L291 0L321 0L290.54 85ZM369 85L369 64L331 0L363.8 0L383 32.3L402.2 0L435 0L397 64L397 85ZM499.3 85L477 47.3L477 85L449 85L449 0L482 0L525 72.7L525 0L553 0L553 85Z"/><path fill="#00F0FF" d="M94.9 89L106 120L76 120L64.89 89ZM28 89L28 120L0 120L0 89ZM220.89 89L232 120L202 120L190.89 89ZM157.11 89L146 120L116 120L127.11 89ZM289.11 89L278 120L248 120L236.89 89ZM397 89L397 120L369 120L369 89ZM553 89L553 120L520 120L501.66 89ZM477 89L477 120L449 120L449 89Z"/></svg></h1>
+    <p class="lede">I make co-op horror games in Unity.</p>
+    <p class="sub">Now building Dusk Crew. Free demo on itch.io, 21 December.</p>
+    <p class="actions">
+      <a class="btn" href="#dusk-crew">See Dusk Crew</a>
+      <a class="ghost" href="https://github.com/ravynarchlab-source">GitHub</a>
+    </p>
+  </div>
+  <p class="credit">Dusk Crew · in-engine</p>
+</header>
+
+<main>
+<section id="dusk-crew" class="wrap">
+  <p class="label">Currently building</p>
+  <h2>Dusk Crew</h2>
+  <p class="pitch">Every light in the valley went out. You are the line crew sent back to turn them on. By day you build light. By night you walk out of it to bring people home. First-person co-op for one or two players.</p>
+
+  <div class="media">
+    <video id="reel" controls muted loop playsinline preload="none" poster="assets/img/poster.webp" width="960" height="540" aria-label="Dusk Crew footage, ten seconds, no sound: the street goes from golden hour to night under a black moon, an axe prints into the player's hands as a cyan hologram, and a Returned erupts with blades.">
+      <source src="assets/video/dusk-crew.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <p class="demo">
+    <span class="date">Free demo · itch.io · <time datetime="2026-12-21">21 Dec 2026</time></span>
+    <a href="https://github.com/ravynarchlab-source/dusk-crew-showcase">Press page: screenshots, features, devlog</a>
+  </p>
+
+  <ul class="features">
+    <li><h3>Build by day, survive by night</h3><p>Fell trees, gather scrap, wire up lamp posts and a generator. After dark, what you built is the only safe ground.</p></li>
+    <li><h3>The creature</h3><p>It watches from above the street and takes people where your light does not reach. Nothing you carry can kill it.</p></li>
+    <li><h3>The Returned</h3><p>The people it takes come back wrong, with black blades tearing out of the body. Strong light melts the blades for two seconds. Hit it then.</p></li>
+    <li><h3>Holo-print</h3><p>Tools are printed from the wrist cuff: a grid, a wireframe drawn line by line, voxels, then wood and steel.</p></li>
+    <li><h3>Kinetic Rig</h3><p><span class="note">In development.</span> Tools float on a tether from the cuff. Send the axe off to work alone, then lift the logs home with the same beam.</p></li>
+  </ul>
+
+  <div class="shots">
+    <figure><img src="assets/img/golden-hour.webp" width="960" height="540" loading="lazy" decoding="async" alt="A street at golden hour: a house, a tree and a creek running through low fog."><figcaption>Golden hour. The last safe light of the day.</figcaption></figure>
+    <figure><img src="assets/img/black-moon.webp" width="960" height="540" loading="lazy" decoding="async" alt="The same street at night under a black moon with a thin white corona."><figcaption>The same street under the black moon.</figcaption></figure>
+    <figure><img src="assets/img/the-returned.webp" width="960" height="540" loading="lazy" decoding="async" alt="A Returned at dusk, long black blades erupting from its back and arms. Its face is mosaicked."><figcaption>A Returned. Human faces are mosaicked, like censored bodycam footage.</figcaption></figure>
+    <figure><img src="assets/img/holo-print.webp" width="960" height="540" loading="lazy" decoding="async" alt="First-person view at dusk: an axe appears in the player's hands as a cyan wireframe."><figcaption>Holo-print: an axe, half printed.</figcaption></figure>
+  </div>
+</section>
+
+<section id="work" class="wrap">
+  <h2>Other work</h2>
+  <ul class="work">
+    <li>
+      <h3>RAVYN: ECHO</h3>
+      <p class="label">Roblox · Luau</p>
+      <p class="desc">Co-op dungeon game for one to four players. Lineages, skill fusion, and a "server admin" voice that talks you through every run.</p>
+    </li>
+    <li>
+      <h3><a href="https://github.com/ravynarchlab-source/ravyn-neon">RAVYN NEON</a></h3>
+      <p class="label">Desktop theme</p>
+      <p class="desc">One neon palette across Windows Terminal, Oh My Posh, cursors and Seelen UI. MIT licensed.</p>
+    </li>
+    <li>
+      <h3>60 Seconds! Reatomized in Gulf Arabic</h3>
+      <p class="label">Localisation</p>
+      <p class="desc">Fan translation with full right-to-left support, about 3,800 strings. Finished, waiting on the developer's go-ahead.</p>
+    </li>
+    <li>
+      <h3>RAVYN | ATM10 Hardcore</h3>
+      <p class="label">Community</p>
+      <p class="desc">Public Minecraft server: All the Mods 10 on NeoForge 1.21.1, hardcore rules. Join at <code>playravyn.com</code>.</p>
+    </li>
+  </ul>
+</section>
+
+<section id="contact" class="wrap contact">
+  <h2>Contact</h2>
+  <p>The fastest way to reach me is the RAVYN: Riftfall Discord. Press, playtesters and studios are all welcome.</p>
+  <p class="actions">
+    <a class="btn" href="https://discord.gg/YMws83FPS">Join the Discord</a>
+    <a class="ghost" href="https://github.com/ravynarchlab-source">GitHub</a>
+  </p>
+</section>
+</main>
+
+<footer class="wrap">
+  <p class="foot">© 2026 RAVYN. Set in Chakra Petch (SIL Open Font License).</p>
+</footer>
+
+<script>
+// Play the reel only while it is on screen. With reduced motion it stays a still with controls.
+(function () {
+  var v = document.getElementById("reel");
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+  new IntersectionObserver(function (e) {
+    if (e[0].isIntersecting) { var p = v.play(); if (p) p.catch(function () {}); } else v.pause();
+  }, { threshold: 0.4 }).observe(v);
+})();
+</script>
+</body>
+</html>
